@@ -39,7 +39,7 @@ def display_help(params = []):
 	for func in [func for func in dir(forrest.infer) if not func.startswith("_")]:
 	    if func != "forrest" and func != "select":
 	    	print func
-	
+
 def get_cmd(cmd = None):
     if not cmd:
         cmd = raw_input("FoRREST> ").split()
@@ -66,14 +66,14 @@ def run_func(forrest, func, params):
 
                 try:
                     if is_obj:
-                        fun = getattr(fun, method)                        
+                        fun = getattr(fun, method)
                         print fun()
                     else:
                         print fun(params)
                 except Exception as e:
                     print '[-] function failed to run.'
                     print e
-    
+
     # Elifs allow users to call plugin functions directly from the command line
     # There's probably a short/cleaner way to do this, but this works -DS 7/8
 
@@ -81,7 +81,7 @@ def run_func(forrest, func, params):
     elif func in dir(forrest.raw):
         fun = getattr(forrest.raw, func)
         try:
-	
+
             return_value = fun()
         except Exception as e:
             print "[-] Raw function failed to run."
@@ -125,7 +125,7 @@ def run_func(forrest, func, params):
 
     else:
         print "[-] That command does not exist!"
-    
+
     x = ""
     if params:
 	x = params[0]
@@ -133,10 +133,10 @@ def run_func(forrest, func, params):
     if x == "-p":
     	for x in return_value:
     	    print x
-    else:  
+    else:
     	return return_value
     return
-   
+
 def shell(forrest = FoRREST(), should_display_help = True):
     if should_display_help: display_help()
 

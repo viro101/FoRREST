@@ -4,6 +4,8 @@ import subprocess
 import os
 from plugins import *
 import sys
+import wget
+import zipfile
 
 from Model import Forrest_Model
 
@@ -27,17 +29,43 @@ class FoRREST:
             filename = params
         else:
             filename = params[0]
-        
+        if (os.path.isfile(filename)):  #
+            print "place holder"
+        else:
+            print "place holder for file not existing"
+            filename = self.get_remote_file(filename)
+            print filename
+
         if (os.path.isfile(filename)):
             self.current_file = filename
-            return "[+] File %s successfully loaded" % self.current_file
+            print"\n File loaded!!!"
         else:
             print "[-] That file does not exist!"
         
     
     def get_file(self, params = None):
         return self.current_file
-        
+
+    def get_remote_file(self, params):
+        ##rFileName = os.path.dirname(os.path.realpath(__file__)) + "/samples/"
+        print os.path.dirname(os.path.realpath(__file__))
+        rFileName = wget.download(params, "./samples")
+        if ".zip" in rFileName:
+
+            zip_ref = zipfile.ZipFile(rFileName, 'r')
+            idk = rFileName.split("/")
+            extractDir = "./samples/" + idk[2].strip(".zip")
+            print "\nthis is the dir for extraction:" + extractDir
+            if not os.path.exists(extractDir):
+                print "test1"
+                os.makedirs(extractDir)
+            zip_ref.extractall(extractDir, None, "infected")
+            zip_ref.close()
+            rFileName = extractDir = "./samples/" + idk[2].strip(".zip") + "/" + idk[2].strip(".zip")
+
+        return rFileName
+
+
     def get_raw(self, params = None):
         output = {}
 

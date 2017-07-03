@@ -35,7 +35,7 @@ class Extract:
             good = False
             
         if good:
-            data = magic.from_file(self._get_file(), meme)
+            data = magic.from_file(self._get_file())
         
         return data
     
